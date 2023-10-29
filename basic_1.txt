@@ -13,7 +13,7 @@ r is the annual interest rate (decimal form).
 n is the number of times that interest is compounded per year.
 t is the number of years.
 
-Your program should ask the user for these values and then calculate and display the final amount with two decimal places.
+Your program should ask the user for these values and then calculate and display the final amount rounded to the nearest dollar.
 
 Sample Input:
 
@@ -24,4 +24,4 @@ Number of years (t): 5
 
 Sample Output:
 
-The final amount after 5 years is $1276.53
+The final amount after 5 years is $1276
