@@ -1,0 +1,27 @@
+Question:
+
+Write a Python program that calculates the compound interest for a given principal amount, annual interest rate, the number of times interest is compounded per year, and the number of years. 
+
+Use the compound interest formula:
+A = P(1 + r/n)^(nt)
+
+Where:
+
+A is the final amount (including principal and interest).
+P is the principal amount.
+r is the annual interest rate (decimal form).
+n is the number of times that interest is compounded per year.
+t is the number of years.
+
+Your program should ask the user for these values and then calculate and display the final amount with two decimal places.
+
+Sample Input:
+
+Principal amount (P): 1000
+Annual interest rate (r, in percentage): 5
+Number of times interest is compounded per year (n): 4
+Number of years (t): 5
+
+Sample Output:
+
+The final amount after 5 years is $1276.53
