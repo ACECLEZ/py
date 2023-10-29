@@ -1,0 +1,8 @@
+Calculate the Area of a Circle:
+
+Question: Write a Python program that takes the radius of a circle as input and calculates its area using the math.pi constant from the math module.
+
+Sample Input: 5
+
+Sample Output: The area of the circle is 78.54
+
