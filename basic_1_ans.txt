@@ -1,7 +1,20 @@
-prinical_amount = int(input("Principal amount (P):"))
-annual_interest_rate = int(input("Annual interest rate (r, in percentage):"))
-number_of_times_interest_is_compounded_per_year = int(input("Number of times interest is compounded per year (n):"))
-number_of_years = int(input("Number of years (t):"))
-
-final_amount = prinical_amount * ((1 + annual_interest_rate / 100 / number_of_times_interest_is_compounded_per_year) ** (number_of_times_interest_is_compounded_per_year * number_of_years))
-print("{:.2f}".format(final_amount) )
+BankAccount = 0.00
+    
+while True:
+    print("what do you wish to do")
+    case = input()
+    if (case == "deposit"):
+        amount = int(input("enter amount you would like to deposit"))
+        BankAccount += amount
+        print("your balance now is $",BankAccount)
+    
+    if (case == "withdraw"):
+        amount = int(input("enter amount you would like to withdraw"))
+        if (amount > BankAccount):
+            shortage = amount - BankAccount
+            print("insufficient amount, you are short of $",shortage)
+        else:
+            BankAccount -= amount
+            print("withdraw success! your balance now is $",BankAccount)
+    
+    
