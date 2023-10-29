@@ -107,7 +107,7 @@ while True:
         global loop_count
         loop_count = 0
 
-        print("Dealer's hand:", "\n", dealerPile[loop_count], "and ?", "\n")
+        print("Dealer's hand:", "\n", dealerPile[loop_count], "and ", dealerPile[loop_count+1], "\n")
         dealerDrawed.append(dealerPile[loop_count])
         dealerDrawed.append(dealerPile[loop_count+1])
         dealerTotal = dealerPile[loop_count] + dealerPile[loop_count+1]

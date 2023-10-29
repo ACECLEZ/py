@@ -93,7 +93,8 @@ def outputFinal():
     print("\n")
 main_loop = True
 while True:
-
+    global main_loop
+    main_loop = True
     bet = int(input("Welcome to a game of blackjack. How much do you wish to bet? Your available balance is $" + str(playerBalance) + ": "))
 
     if (bet > playerBalance):
@@ -101,6 +102,8 @@ while True:
         print("insufficient amount, please place a smaller bat. You are short of $", shortage)
 
     else:
+        if (main_loop == False):
+            continue
         #main loop
         global loop_count
         loop_count = 0
@@ -127,6 +130,8 @@ while True:
             askIfQuit()
 
         else:
+            if (main_loop == False):
+                continue
             print("proceed to hitting / standing")
             #blackjack cases
 
@@ -148,6 +153,8 @@ while True:
             #hitting/standing for non-blackjack cases
 
             for i in range(3):
+                if (main_loop == False):
+                    continue
                 draw_card = 2
 
                 gameAction = input("do you want to Hit or Stand [H/S]")
@@ -164,6 +171,8 @@ while True:
                     checkBust()
                     draw_card += 1
                 else:
+                    if (main_loop == False):
+                        continue
                     print("-------------CALCULATING-------------")
 
                     outputFinal()
@@ -173,6 +182,8 @@ while True:
                         askIfQuit()
 
                     while (dealerTotal < 17):
+                        if (main_loop == False):
+                            continue
                         print("-------------DEALER-DRAWING-CARD-------------")
                         dealerTotal = dealerTotal + dealerPile[draw_card]
                         dealerDrawed.append(dealerPile[draw_card])
@@ -185,10 +196,11 @@ while True:
                             if 1 in dealerDrawed:
                                 dealerTotal - 10
                             else:
+                                if (main_loop == False):
+                                    continue
                                 playerBalance = playerBalance + bet
                                 print("[DEALER BUST] You won $", bet, "Your balance is $", playerBalance)
                                 askIfQuit()
-                    while main_loop:
                         print("-------------RESULTS-------------")
                         outputFinal()
                         if (dealerTotal > playerTotal):

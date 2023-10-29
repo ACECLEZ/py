@@ -1,7 +1,9 @@
+#known bugs:
+#N case for quitting not working
+
 #dependencies
 import random
 
-#init the list of cards that will be used in the game
 cards = [
     11 ,11, 11, 11, #represent ace, a logic is needed to determine if it is consided 1 or 11 //if exceed 21 and have ace then -10
     2, 2, 2, 2, 
@@ -64,9 +66,8 @@ def askIfQuit():
     if end_choice.upper() == "Y":
         quit()
     else:
-        global main_loop
-        main_loop = False
-        return
+        quit()
+        #return
 
 def checkBust():
     if (playerTotal > 21):
@@ -91,105 +92,110 @@ def outputFinal():
     for item in dealerDrawed:
         print(item, end=" ")
     print("\n")
-main_loop = True
+
 while True:
-    while main_loop:
 
-        bet = int(input("Welcome to a game of blackjack. How much do you wish to bet? Your available balance is $" + str(playerBalance) + ": "))
+    bet = int(input("Welcome to a game of blackjack. How much do you wish to bet? Your available balance is $" + str(playerBalance) + ": "))
 
-        if (bet > playerBalance):
-            shortage = bet - playerBalance 
-            print("insufficient amount, please place a smaller bat. You are short of $", shortage)
+    if (bet > playerBalance):
+        shortage = bet - playerBalance 
+        print("insufficient amount, please place a smaller bat. You are short of $", shortage)
+
+    else:
+        #main loop
+        global loop_count
+        loop_count = 0
+
+        print("Dealer's hand:", "\n", dealerPile[loop_count], "and ", dealerPile[loop_count+1], "\n")
+        dealerDrawed.append(dealerPile[loop_count])
+        dealerDrawed.append(dealerPile[loop_count+1])
+        dealerTotal = dealerPile[loop_count] + dealerPile[loop_count+1]
+        print("dealer total = ", dealerTotal)
+
+        print("Player's hand:", "\n", playerPile[loop_count], "and",playerPile[loop_count+1], "\n")
+        playerDrawed.append(playerPile[loop_count])
+        playerDrawed.append(playerPile[loop_count+1])
+        playerTotal = playerPile[loop_count] + playerPile[loop_count+1]
+        print("player total = ", playerTotal)
+
+        quit_choice = input("Do you want to quit [Y/N]")
+
+        if (quit_choice == "Y"):
+            lost = bet/2
+            playerBalance = playerBalance - lost
+            print("you lost $",lost,". Your balance now is $",playerBalance)
+            #end_choice = input("Do you want to end the game [Y/N]")
+            askIfQuit()
 
         else:
-            #main loop
-            global loop_count
-            loop_count = 0
+            print("proceed to hitting / standing")
+            #blackjack cases
 
-            print("Dealer's hand:", "\n", dealerPile[loop_count], "and ?", "\n")
-            dealerDrawed.append(dealerPile[loop_count])
-            dealerDrawed.append(dealerPile[loop_count+1])
-            dealerTotal = dealerPile[loop_count] + dealerPile[loop_count+1]
-            print("dealer total = ", dealerTotal)
-
-            print("Player's hand:", "\n", playerPile[loop_count], "and",playerPile[loop_count+1], "\n")
-            playerDrawed.append(playerPile[loop_count])
-            playerDrawed.append(playerPile[loop_count+1])
-            playerTotal = playerPile[loop_count] + playerPile[loop_count+1]
-            print("player total = ", playerTotal)
-
-            quit_choice = input("Do you want to quit [Y/N]")
-
-            if (quit_choice == "Y"):
-                lost = bet/2
-                playerBalance = playerBalance - lost
-                print("you lost $",lost,". Your balance now is $",playerBalance)
-                #end_choice = input("Do you want to end the game [Y/N]")
+            if (playerTotal == 21 and dealerTotal == 21):
+                print("[PUSH] Your bet has been returned. Your balance is $", playerBalance)
                 askIfQuit()
+                continue #patch for incapability of using "continue in functions"
+            if (playerTotal == 21 and dealerTotal != 21):
+                winAmt = bet*1.5
+                playerBalance = playerBalance + winAmt
+                print("[BLACKJACK] Blackjack pays 3 to 2. You won $", winAmt, "Your balance is $", playerBalance)
+                askIfQuit()
+                continue #patch for incapability of using "continue in functions"
+            if (playerTotal != 21 and dealerTotal == 21):
+                playerBalance = playerBalance - bet
+                print("[DEALER BLACKJACK] You lost $", bet, "Your balance is $", playerBalance)
+                askIfQuit()
+                continue #patch for incapability of using "continue in functions"
+            #hitting/standing for non-blackjack cases
 
-            else:
-                print("proceed to hitting / standing")
-                #blackjack cases
+            for i in range(3):
+                draw_card = 2
 
-                if (playerTotal == 21 and dealerTotal == 21):
-                    print("[PUSH] Your bet has been returned. Your balance is $", playerBalance)
-                    askIfQuit()
-                    continue #patch for incapability of using "continue in functions"
-                if (playerTotal == 21 and dealerTotal != 21):
-                    winAmt = bet*1.5
-                    playerBalance = playerBalance + winAmt
-                    print("[BLACKJACK] Blackjack pays 3 to 2. You won $", winAmt, "Your balance is $", playerBalance)
-                    askIfQuit()
-                    continue #patch for incapability of using "continue in functions"
-                if (playerTotal != 21 and dealerTotal == 21):
-                    playerBalance = playerBalance - bet
-                    print("[DEALER BLACKJACK] You lost $", bet, "Your balance is $", playerBalance)
-                    askIfQuit()
-                    continue #patch for incapability of using "continue in functions"
-                #hitting/standing for non-blackjack cases
+                gameAction = input("do you want to Hit or Stand [H/S]")
+                if (gameAction == "H"):
+                    playerDrawed.append(playerPile[draw_card])
+                    playerTotal = playerTotal + playerPile[draw_card]
+                    outputFinal()
+                    '''
+                    print("Player Cards:", "\n")
+                    for item in playerDrawed:
+                         print(item, end=" ")
+                    print("\n")
+                    '''
+                    checkBust()
+                    draw_card += 1
+                else:
+                    print("-------------CALCULATING-------------")
 
-                for i in range(3):
-                    draw_card = 2
+                    outputFinal()
+                    if (dealerTotal > playerTotal):
+                        playerBalance = playerBalance - bet
+                        print("[DEALER WINS] You lost $", bet, "Your balance is $", playerBalance)
+                        askIfQuit()
 
-                    gameAction = input("do you want to Hit or Stand [H/S]")
-                    if (gameAction == "H"):
-                        playerDrawed.append(playerPile[draw_card])
-                        playerTotal = playerTotal + playerPile[draw_card]
+                    while (dealerTotal < 17):
+                        print("-------------DEALER-DRAWING-CARD-------------")
+                        dealerTotal = dealerTotal + dealerPile[draw_card]
+                        dealerDrawed.append(dealerPile[draw_card])
                         outputFinal()
-                        checkBust()
-                        draw_card += 1
-                    else:
-                        print("-------------CALCULATING-------------")
-
-                        outputFinal()
-                        if (dealerTotal > playerTotal):
+                        if (playerTotal != 21 and len(dealerDrawed) == 5):
                             playerBalance = playerBalance - bet
-                            print("[DEALER WINS] You lost $", bet, "Your balance is $", playerBalance)
+                            print("[DEALER REACHED 5 CARDS] You lost $", bet, "Your balance is $", playerBalance)
                             askIfQuit()
-
-                        while (dealerTotal < 17):
-                            print("-------------DEALER-DRAWING-CARD-------------")
-                            dealerTotal = dealerTotal + dealerPile[draw_card]
-                            dealerDrawed.append(dealerPile[draw_card])
-                            outputFinal()
-                            if (playerTotal != 21 and len(dealerDrawed) == 5):
-                                playerBalance = playerBalance - bet
-                                print("[DEALER REACHED 5 CARDS] You lost $", bet, "Your balance is $", playerBalance)
+                        if (dealerTotal > 21):
+                            if 1 in dealerDrawed:
+                                dealerTotal - 10
+                            else:
+                                playerBalance = playerBalance + bet
+                                print("[DEALER BUST] You won $", bet, "Your balance is $", playerBalance)
                                 askIfQuit()
-                            if (dealerTotal > 21):
-                                if 1 in dealerDrawed:
-                                    dealerTotal - 10
-                                else:
-                                    playerBalance = playerBalance + bet
-                                    print("[DEALER BUST] You won $", bet, "Your balance is $", playerBalance)
-                                    askIfQuit()
-                        print("-------------RESULTS-------------")
-                        outputFinal()
-                        if (dealerTotal > playerTotal):
-                            playerBalance = playerBalance - bet
-                            print("[DEALER WINS] You lost $", bet, "Your balance is $", playerBalance)
-                            askIfQuit()
-                        else:
-                            playerBalance = playerBalance + bet
-                            print("[PLAYER WINS] You won $", bet, "Your balance is $", playerBalance)
-                            askIfQuit()    
+                    print("-------------RESULTS-------------")
+                    outputFinal()
+                    if (dealerTotal > playerTotal):
+                        playerBalance = playerBalance - bet
+                        print("[DEALER WINS] You lost $", bet, "Your balance is $", playerBalance)
+                        askIfQuit()
+                    else:
+                        playerBalance = playerBalance + bet
+                        print("[PLAYER WINS] You won $", bet, "Your balance is $", playerBalance)
+                        askIfQuit()    
