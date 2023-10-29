@@ -1,27 +1,21 @@
 Question:
+You are tasked with testing a Python program that simulates a bank account. The program consists of a loop that repeatedly asks the user for their desired action, which can be either "deposit" or "withdraw." Depending on the action, the user is prompted to enter an amount, and the program updates the bank account balance accordingly.
 
-Write a Python program that calculates the compound interest for a given principal amount, annual interest rate, the number of times interest is compounded per year, and the number of years. 
+Your mission is to create test cases for this program.
 
-Use the compound interest formula:
-A = P(1 + r/n)^(nt)
+For the "deposit" case:
 
-Where:
+Input: "deposit"
+Input: 1000
+Expected Output: "your balance now is $1000.0"
+For the "withdraw" case with sufficient funds:
 
-A is the final amount (including principal and interest).
-P is the principal amount.
-r is the annual interest rate (decimal form).
-n is the number of times that interest is compounded per year.
-t is the number of years.
+Input: "withdraw"
+Input: 500
+Expected Output: "withdraw success! your balance now is $500.0"
+For the "withdraw" case with insufficient funds:
 
-Your program should ask the user for these values and then calculate and display the final amount with two decimal places.
-
-Sample Input:
-
-Principal amount (P): 1000
-Annual interest rate (r, in percentage): 5
-Number of times interest is compounded per year (n): 4
-Number of years (t): 5
-
-Sample Output:
-
-The final amount after 5 years is $1282.04.
+Input: "withdraw"
+Input: 1500
+Expected Output: "insufficient amount, you are short of $1000.0"
+Please provide test cases for these scenarios and verify that the program behaves as expected.
